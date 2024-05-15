@@ -1,0 +1,149 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:AWS_DEFAULT_REGION:AWS_ACCOUNT_ID:task-definition/TASK_DF:IMAGE_TAG",
+    "containerDefinitions": [
+        {
+          "name": "wareomofu-api-container",
+          "image": "<IMAGE1_NAME>",
+          "portMappings": [
+              {
+                  "containerPort": 80,
+                  "hostPort": 80,
+                  "protocol": "tcp"
+              }
+          ],
+          "logConfiguration": {
+              "logDriver": "awslogs",
+              "options": {
+                  "awslogs-create-group": "true",
+                  "awslogs-group": "/ecs/TASK_DF",
+                  "awslogs-region": "AWS_DEFAULT_REGION",
+                  "awslogs-stream-prefix": "ecs"
+              },
+              "secretOptions": null
+          },
+          "secrets": [
+            {
+              "valueFrom": "arn:aws:secretsmanager:AWS_DEFAULT_REGION:AWS_ACCOUNT_ID:secret:DB_INFO_SECRET_NAME",
+              "name": "DB_INFO"
+            },
+            {
+              "valueFrom": "arn:aws:secretsmanager:AWS_DEFAULT_REGION:AWS_ACCOUNT_ID:secret:COGNITO_INFO_SECRET_NAME",
+              "name": "COGNITO_INFO"
+            }
+          ],
+          "environment": [
+            {
+              "name": "FRONT_ORIGIN1",
+              "value": "https://wareomofu.com"
+            },
+            {
+              "name": "FRONT_ORIGIN2",
+              "value": "https://www.wareomofu.com"
+            },
+            {
+              "name": "SNS_TOPIC_ARN",
+              "value": "arn:aws:sns:AWS_DEFAULT_REGION:AWS_ACCOUNT_ID:SNS_TOPIC_NAME"
+            },
+            {
+              "name": "EMAIL_TO_USER_QUEUE",
+              "value": "wareomofu-lambda-WareomofuEmailToUserQueue-MSLYVpj3uENh"
+            },
+            {
+              "name": "TZ",
+              "value": "Asia/Tokyo"
+            }
+          ]
+        }
+    ],
+    "family": "TASK_DF",
+    "taskRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/ECS_TASK_EXEC_ROLE",
+    "executionRoleArn": "arn:aws:iam::AWS_ACCOUNT_ID:role/ECS_TASK_EXEC_ROLE",
+    "networkMode": "awsvpc",
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.24"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "com.amazonaws.ecs.capability.ecr-auth"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.17"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.21"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "ecs.capability.container-health-check"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "ecs.capability.execution-role-ecr-pull"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+          "targetId": null,
+          "targetType": null,
+          "value": null,
+          "name": "ecs.capability.task-eni"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": ["FARGATE"],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    }
+}
